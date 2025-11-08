@@ -1,0 +1,27 @@
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.signal import butter, filtfilt
+t=np.linspace(0,33,3300)
+x=np.zeros_like(t)
+for i in range(len(t)):
+    if (t[i]%11)<5:x[i]=3
+    elif (t[i]%11)<7:x[i]=2
+    else:x[i]=1
+b,a=butter(4,0.05,btype='low')
+y=filtfilt(b,a,x)
+plt.figure(figsize=(10,6))
+plt.subplot(2,1,1)
+plt.plot(t,x,'b',label='Tín hiệu gốc (vuông)')
+plt.title('Tín hiệu đèn giao thông trước xử lý')
+plt.ylabel('Trạng thái (1=Xanh, 2=Vàng, 3=Đỏ)')
+plt.legend()
+plt.grid(True)
+plt.subplot(2,1,2)
+plt.plot(t,y,'r',label='Tín hiệu sau lọc thông thấp')
+plt.title('Tín hiệu đèn giao thông sau xử lý (làm mượt)')
+plt.xlabel('Thời gian (s)')
+plt.ylabel('Cường độ tín hiệu')
+plt.legend()
+plt.grid(True)
+plt.tight_layout()
+plt.show()
